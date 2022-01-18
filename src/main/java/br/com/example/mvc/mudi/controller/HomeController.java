@@ -1,7 +1,10 @@
 package br.com.example.mvc.mudi.controller;
 
-import java.util.Arrays;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,16 +15,15 @@ import br.com.example.mvc.mudi.model.Pedido;
 @Controller
 public class HomeController {
 	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
 	@GetMapping("/home")
 	public String home(Model model) {
 		
-		Pedido pedido = new Pedido();
-		pedido.setNomeProduto("Fire TV Stick com Controle Remoto");
-		pedido.setUrlImagem("https://m.media-amazon.com/images/I/51degAt5CFL._AC_SL1000_.jpg");
-		pedido.setUrlProduto("https://www.amazon.com.br/Fire-TV-Stick-Streaming/dp/B08C1K6LB2");
-		pedido.setDescricao("Uma descrição qualquer para esse pedido");
+		Query query = entityManager.createQuery("SELECT p FROM Pedido p", Pedido.class);
+		List<Pedido> pedidos = query.getResultList();	
 		
-		List<Pedido> pedidos = Arrays.asList(pedido);		
 		model.addAttribute("pedidos", pedidos);
 		
 		return "home";

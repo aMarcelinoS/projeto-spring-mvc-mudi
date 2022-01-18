@@ -3,9 +3,19 @@ package br.com.example.mvc.mudi.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "pedidos")
 public class Pedido {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String nomeProduto;
 	private BigDecimal valorNegociado;
 	private LocalDate dataEntrega;
@@ -24,6 +34,14 @@ public class Pedido {
 		this.urlProduto = urlProduto;
 		this.urlImagem = urlImagem;
 		this.descricao = descricao;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNomeProduto() {
